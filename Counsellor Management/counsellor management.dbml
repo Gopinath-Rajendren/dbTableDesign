@@ -1,0 +1,63 @@
+Table Doctor {
+  id integer [primary key]
+  firstname varchar
+  lastname varchar
+  contact integer
+  email string
+  status varchar
+  created_at timestamp
+}
+
+Table Admin {
+  id integer [primary key]
+  firstname varchar
+  lastname varchar
+  contact integer
+  email string
+  status varchar
+  created_at timestamp
+}
+
+Table Client {
+  id integer [primary key]
+  firstname varchar
+  lastname varchar
+  contact integer
+  email string
+  address string
+  reg_date datetime
+  status varchar
+  created_at timestamp
+}
+
+Table Address {
+  id integer [primary key]
+  client_id integer [not null, ref: - Client.id]
+  addressline1 string
+  city varchar
+  state varchar
+  postalcode integer
+  country string
+  status varchar
+  created_at timestamp
+}
+
+Table Payment {
+  id integer [primary key]
+  appt_id integer [not null, ref: - Appointment.id]
+  payment_time datetime
+  payment_amount varchar
+  payment_type string
+  status varchar
+  created_at timestamp
+}
+
+Table Appointment {
+  id integer [primary key]
+  start_date datetime
+  end_date datetime
+  client_id integer [not null, ref: - Client.id] 
+  doctor_id integer [not null, ref: - Doctor.id] 
+  status varchar
+}
+
