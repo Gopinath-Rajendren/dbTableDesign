@@ -38,3 +38,4 @@ Table service_status {
 // Ref: pricing.service_id > services.id
 // Ref: service_status.service_id > services.id
 
+//kindly verify all the relationships
