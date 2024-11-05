@@ -1,0 +1,40 @@
+Table services {
+  id int [pk, not null]
+  type varchar(50) [not null]
+  description text                      
+  duration int                         
+  pricing decimal(10,2)                 
+  created_at datetime                   
+  updated_at datetime                   
+
+  Note: "Stores details about each counseling service type, including type, duration, and pricing."
+}
+
+Table pricing {
+  id int [pk, not null]               
+  service_id int [ref: > services.id]  
+  tier_name varchar(50)                
+  price decimal(10,2)                  
+  subscription varchar(20)             
+  promo_code varchar(20)               
+  discount decimal(5,2)                
+  created_at datetime                  
+  updated_at datetime                  
+
+  Note: "Stores different price tiers and subscription models for each service, with support for promo codes and discounts."
+}
+
+Table service_status {
+  id int [pk, not null]                
+  service_id int [ref: > services.id]  
+  is_active boolean                    
+  reason text                          
+  updated_at datetime                  
+
+  Note: "Tracks the availability status of each service, allowing services to be enabled or disabled."
+}
+
+// Relationships
+// Ref: pricing.service_id > services.id
+// Ref: service_status.service_id > services.id
+
