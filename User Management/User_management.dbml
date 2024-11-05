@@ -84,4 +84,6 @@ Table UserActivityMetrics {
   avg_session_duration int
   session_completion_rate float
   common_usage_times time  // Most active time of day
-}
+
+// kindly work on relationship for sessions.client_id, Feedback.Sessionid, SupportTicket.clientid, UserActivityMetrics.Client_i
+//verify the syntax for all enum data types, go through the documentation.
