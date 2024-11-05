@@ -1,0 +1,52 @@
+Table appointments {
+  id int [pk, increment]
+  counselor_id int [not null, ref: > counselors.id]
+  client_id int [not null, ref: > clients.id]
+  appointment_type varchar(20) [note: "Type of appointment, e.g., video, audio, text"]
+  status varchar(20) [note: "Appointment status, e.g., pending, confirmed, completed, canceled"]
+  session_time datetime [note: "Scheduled time of the appointment"]
+  duration int [note: "Duration of the session in minutes"]
+  notes text [note: "Additional notes about the session"]
+  created_at datetime [default: `now()`]
+  updated_at datetime
+}
+
+Table counselors {
+  id int [pk, increment]
+  name varchar(100) [not null]
+  email varchar(255) [unique, not null]
+  phone varchar(20)
+}
+
+Table clients {
+  id int [pk, increment]
+  name varchar(100) [not null]
+  email varchar(255) [unique, not null]
+  phone varchar(20)
+}
+
+Table notifications {
+  id int [pk, increment]
+  appointment_id int [not null, ref: > appointments.id]
+  type varchar(20) [note: "Notification type, e.g., confirmation, rescheduling, cancellation, reminder"]
+  sent_at datetime [not null, default: `now()`]
+  method varchar(20) [note: "Notification method, e.g., email, SMS"]
+}
+
+Table session_logs {
+  id int [pk, increment]
+  appointment_id int [not null, ref: > appointments.id]
+  start_time datetime [note: "Start timestamp of the session"]
+  end_time datetime [note: "End timestamp of the session"]
+  feedback text [note: "User feedback after the session"]
+  issues text [note: "Technical issues encountered"]
+  incidents text [note: "Any incidents during the session"]
+  created_at datetime [default: `now()`]
+}
+
+Table filters {
+  id int [pk, increment]
+  counselor_id int [ref: > counselors.id, note: "Filter by counselor"]
+  status varchar(20) [note: "Filter by appointment status, e.g., pending, confirmed, canceled"]
+}
+
