@@ -1,0 +1,87 @@
+// User Management DBML Schema
+
+// Table for Clients
+Table Client {
+  ClientID int [pk, unique, increment]  // Primary Key
+  f_name varchar(50)
+  l_name varchar(50)
+  email varchar(100) [not null, unique]
+  contact_number varchar(15)
+  address_line1 varchar(255)
+  city varchar(50)
+  state varchar(50)
+  postal_code varchar(20)
+  country varchar(50)
+  registration_date date
+  status enum('Active', 'Inactive', 'Suspended') // Based on logic in description
+  preferences text  // Medical or counseling preferences
+}
+
+// Table for Counsellors
+Table Counsellor {
+  CounsellorID int [pk, unique, increment]  // Primary Key
+  f_name varchar(50)
+  l_name varchar(50)
+  email varchar(100) [not null, unique]
+  contact_number varchar(15)
+  specialisation varchar(100)
+  experience_years int
+  feedback_rating float
+  status enum('Active', 'Inactive', 'Suspended')
+  availability_schedule text
+}
+
+// Table for Admins
+Table Admin {
+  AdminID int [pk, unique, increment]  // Primary Key
+  f_name varchar(50)
+  l_name varchar(50)
+  email varchar(100) [not null, unique]
+  contact_number varchar(15)
+  role enum('Super Admin', 'Admin', 'Moderator')  // Role defines control level
+  status enum('Active', 'Suspended')
+}
+
+// Table for Sessions
+Table Session {
+  SessionID int [pk, unique, increment]  // Primary Key
+  ClientID int [ref: > Client.ClientID]  // Foreign Key reference to User (can be Client or Counsellor)
+  session_start_time datetime
+  session_end_time datetime
+  session_duration int  // In minutes
+  session_type enum('Online', 'In-person')
+  session_status enum('Scheduled', 'Completed', 'Cancelled', 'Missed')
+}
+
+// Table for Feedback
+Table Feedback {
+  FeedbackID int [pk, unique, increment]  // Primary Key
+  SessionID int [ref: > Session.SessionID]  // Foreign Key reference to Session
+  ClientID int [ref: > Client.ClientID]  // Foreign Key reference to User who provided feedback
+  rating int  // Rating (e.g., 1 to 5 stars)
+  comments text
+}
+
+// Table for Support Tickets
+Table SupportTicket {
+  TicketID int [pk, unique, increment]  // Primary Key
+  ClientID int [ref: > Client.ClientID]  // Foreign Key reference to User who raised the ticket
+  issue_description text
+  ticket_status enum('Open', 'In Progress', 'Resolved', 'Closed')
+  issue_date datetime
+  resolution_date datetime
+}
+
+
+// Additional tables for Activity Metrics and Usage Metrics as required
+Table UserActivityMetrics {
+  ClientID int [ref: > Client.ClientID]  // Foreign Key reference to User
+  login_count int
+  last_login datetime
+  total_sessions_attended int  // For clients
+  total_sessions_conducted int  // For counsellors
+  cancelled_sessions int
+  avg_session_duration int
+  session_completion_rate float
+  common_usage_times time  // Most active time of day
+}
