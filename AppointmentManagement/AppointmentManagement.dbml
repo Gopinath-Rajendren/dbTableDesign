@@ -50,3 +50,8 @@ Table filters {
   status varchar(20) [note: "Filter by appointment status, e.g., pending, confirmed, canceled"]
 }
 
+// Appointments: appointment_type, status 
+// Notifications: notification type, method
+// filters; status
+// for all the above kindly make enum type and make that as data type for the above mentioned columns
+
